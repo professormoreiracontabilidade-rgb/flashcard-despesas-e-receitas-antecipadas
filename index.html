@@ -1,0 +1,242 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receitas e Despesas Antecipadas</title>
+<style>
+    body{
+        margin:0;
+        font-family: Arial, sans-serif;
+        background:#f4f7fb;
+        color:#111;
+    }
+
+    header{
+        background:#062b5f;
+        color:white;
+        padding:18px;
+        text-align:center;
+    }
+
+    header h1{
+        margin:0;
+        font-size:22px;
+    }
+
+    header p{
+        margin:6px 0 0;
+        font-size:14px;
+    }
+
+    .container{
+        padding:16px;
+        max-width:480px;
+        margin:auto;
+    }
+
+    .card{
+        background:white;
+        border-radius:18px;
+        margin-bottom:16px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.12);
+        overflow:hidden;
+        border:2px solid #062b5f;
+    }
+
+    .question{
+        background:#0b3f88;
+        color:white;
+        padding:16px;
+        font-size:18px;
+        font-weight:bold;
+    }
+
+    .answer{
+        display:none;
+        padding:18px;
+        font-size:17px;
+        line-height:1.5;
+        background:#ffffff;
+    }
+
+    .answer strong{
+        color:#062b5f;
+    }
+
+    button{
+        width:100%;
+        padding:15px;
+        border:none;
+        background:#ff8c00;
+        color:white;
+        font-size:17px;
+        font-weight:bold;
+        cursor:pointer;
+    }
+
+    button:hover{
+        background:#e57c00;
+    }
+
+    .footer{
+        text-align:center;
+        padding:20px;
+        font-size:13px;
+        color:#555;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Receitas e Despesas Antecipadas</h1>
+    <p>Curso de Contabilidade – Professor Moreira</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <div class="question">1. Despesa antecipada é despesa?</div>
+        <div class="answer">
+            Não. Apesar do nome, <strong>despesa antecipada não é despesa no momento do pagamento</strong>.  
+            Ela representa um direito da empresa de usufruir algo no futuro.
+            <br><br>
+            <strong>Despesa Antecipada = Ativo</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">2. Receita antecipada é receita?</div>
+        <div class="answer">
+            Não. Apesar do nome, <strong>receita antecipada não é receita no momento do recebimento</strong>.  
+            Ela representa uma obrigação futura da empresa.
+            <br><br>
+            <strong>Receita Antecipada = Passivo</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">3. O que acontece quando a empresa paga um seguro antecipadamente?</div>
+        <div class="answer">
+            A empresa passa a ter um direito de utilizar esse seguro no futuro.
+            <br><br>
+            Portanto, registra-se uma conta de ativo, como:
+            <br><br>
+            <strong>Seguros a Vencer</strong><br>
+            <strong>Seguros Pagos Antecipadamente</strong><br>
+            <strong>Seguros a Apropriar</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">4. Quais são os nomes que a FGV pode usar para despesa antecipada?</div>
+        <div class="answer">
+            A FGV pode usar nomes diferentes para a mesma lógica:
+            <br><br>
+            <strong>Seguros a Vencer</strong><br>
+            <strong>Seguros Pagos Antecipadamente</strong><br>
+            <strong>Seguros a Apropriar</strong>
+            <br><br>
+            Todos representam <strong>ativo</strong>.
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">5. Se a empresa paga antes, isso é o quê?</div>
+        <div class="answer">
+            Se a empresa pagou antes para usar depois, ela tem um direito.
+            <br><br>
+            <strong>Pagou antes = Ativo</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">6. Se a empresa recebe antes, isso é o quê?</div>
+        <div class="answer">
+            Se a empresa recebeu antes, ela ainda precisa entregar mercadoria ou prestar serviço no futuro.
+            <br><br>
+            Logo, surgiu uma obrigação.
+            <br><br>
+            <strong>Recebeu antes = Passivo</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">7. O que é adiantamento de clientes?</div>
+        <div class="answer">
+            É quando a empresa recebe dinheiro do cliente antes de entregar a mercadoria ou prestar o serviço.
+            <br><br>
+            Portanto:
+            <br><br>
+            <strong>Adiantamento de Clientes = Receita Antecipada = Passivo</strong>
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">8. Quando a despesa antecipada vira despesa?</div>
+        <div class="answer">
+            Ela vira despesa conforme o benefício for sendo consumido.
+            <br><br>
+            Exemplo: seguro de 12 meses.
+            <br><br>
+            A cada mês, uma parte é apropriada como despesa.
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">9. Quando a receita antecipada vira receita?</div>
+        <div class="answer">
+            Ela vira receita quando a empresa cumpre sua obrigação.
+            <br><br>
+            Isso ocorre quando entrega a mercadoria ou presta o serviço.
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+    <div class="card">
+        <div class="question">10. Qual é o macete para a prova?</div>
+        <div class="answer">
+            Guarde esta frase:
+            <br><br>
+            <strong>Pagou antes → Ativo.</strong>
+            <br><br>
+            <strong>Recebeu antes → Passivo.</strong>
+            <br><br>
+            Esse macete resolve grande parte das questões da FGV.
+        </div>
+        <button onclick="toggleAnswer(this)">Ver resposta</button>
+    </div>
+
+</div>
+
+<div class="footer">
+    Curso de Contabilidade – Professor Moreira
+</div>
+
+<script>
+function toggleAnswer(button){
+    const answer = button.previousElementSibling;
+
+    if(answer.style.display === "block"){
+        answer.style.display = "none";
+        button.innerText = "Ver resposta";
+    }else{
+        answer.style.display = "block";
+        button.innerText = "Ocultar resposta";
+    }
+}
+</script>
+
+</body>
+</html>
+```
