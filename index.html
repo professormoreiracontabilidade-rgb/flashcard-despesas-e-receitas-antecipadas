@@ -4,90 +4,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Receitas e Despesas Antecipadas</title>
+<title>Flashcards - Receitas e Despesas Antecipadas</title>
+
 <style>
-    body{
-        margin:0;
-        font-family: Arial, sans-serif;
-        background:#f4f7fb;
-        color:#111;
-    }
+*{
+    box-sizing:border-box;
+}
 
-    header{
-        background:#062b5f;
-        color:white;
-        padding:18px;
-        text-align:center;
-    }
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f7fb;
+    color:#111;
+    min-height:100vh;
+}
 
-    header h1{
-        margin:0;
-        font-size:22px;
-    }
+header{
+    background:#062b5f;
+    color:white;
+    padding:16px;
+    text-align:center;
+}
 
-    header p{
-        margin:6px 0 0;
-        font-size:14px;
-    }
+header h1{
+    margin:0;
+    font-size:21px;
+    line-height:1.25;
+}
 
-    .container{
-        padding:16px;
-        max-width:480px;
-        margin:auto;
-    }
+header p{
+    margin:6px 0 0;
+    font-size:14px;
+}
 
-    .card{
-        background:white;
-        border-radius:18px;
-        margin-bottom:16px;
-        box-shadow:0 4px 12px rgba(0,0,0,0.12);
-        overflow:hidden;
-        border:2px solid #062b5f;
-    }
+.progress{
+    text-align:center;
+    font-weight:bold;
+    color:#062b5f;
+    padding:14px 0 4px;
+    font-size:16px;
+}
 
+.container{
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+    padding:14px;
+    min-height:calc(100vh - 170px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.flashcard{
+    width:100%;
+    min-height:430px;
+    perspective:1000px;
+    cursor:pointer;
+}
+
+.card-inner{
+    position:relative;
+    width:100%;
+    min-height:430px;
+    transition:transform 0.6s;
+    transform-style:preserve-3d;
+}
+
+.flashcard.flipped .card-inner{
+    transform:rotateY(180deg);
+}
+
+.card-face{
+    position:absolute;
+    width:100%;
+    min-height:430px;
+    backface-visibility:hidden;
+    border-radius:22px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.18);
+    border:3px solid #062b5f;
+    padding:28px 22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.front{
+    background:#ffffff;
+}
+
+.back{
+    background:#fff8ec;
+    transform:rotateY(180deg);
+}
+
+.label{
+    display:inline-block;
+    background:#ff8c00;
+    color:white;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.question{
+    font-size:24px;
+    font-weight:bold;
+    line-height:1.35;
+    color:#062b5f;
+}
+
+.answer{
+    font-size:21px;
+    line-height:1.45;
+}
+
+.answer strong{
+    color:#062b5f;
+}
+
+.hint{
+    margin-top:24px;
+    font-size:14px;
+    color:#555;
+}
+
+.controls{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:white;
+    border-top:2px solid #ddd;
+    padding:10px;
+    display:flex;
+    gap:8px;
+    justify-content:center;
+}
+
+.controls button{
+    flex:1;
+    max-width:150px;
+    border:none;
+    border-radius:12px;
+    padding:14px 8px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    color:white;
+}
+
+.btn-back{
+    background:#555;
+}
+
+.btn-restart{
+    background:#ff8c00;
+}
+
+.btn-next{
+    background:#062b5f;
+}
+
+.controls button:disabled{
+    background:#bbb;
+    cursor:not-allowed;
+}
+
+@media(max-width:380px){
     .question{
-        background:#0b3f88;
-        color:white;
-        padding:16px;
-        font-size:18px;
-        font-weight:bold;
+        font-size:21px;
     }
 
     .answer{
-        display:none;
-        padding:18px;
-        font-size:17px;
-        line-height:1.5;
-        background:#ffffff;
+        font-size:18px;
     }
 
-    .answer strong{
-        color:#062b5f;
+    .flashcard,
+    .card-inner,
+    .card-face{
+        min-height:390px;
     }
-
-    button{
-        width:100%;
-        padding:15px;
-        border:none;
-        background:#ff8c00;
-        color:white;
-        font-size:17px;
-        font-weight:bold;
-        cursor:pointer;
-    }
-
-    button:hover{
-        background:#e57c00;
-    }
-
-    .footer{
-        text-align:center;
-        padding:20px;
-        font-size:13px;
-        color:#555;
-    }
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -95,146 +200,126 @@
     <p>Curso de Contabilidade – Professor Moreira</p>
 </header>
 
+<div class="progress" id="progress"></div>
+
 <div class="container">
 
-    <div class="card">
-        <div class="question">1. Despesa antecipada é despesa?</div>
-        <div class="answer">
-            Não. Apesar do nome, <strong>despesa antecipada não é despesa no momento do pagamento</strong>.  
-            Ela representa um direito da empresa de usufruir algo no futuro.
-            <br><br>
-            <strong>Despesa Antecipada = Ativo</strong>
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-inner">
+            <div class="card-face front">
+                <div>
+                    <div class="label">FRENTE</div>
+                    <div class="question" id="question"></div>
+                    <div class="hint">Toque no cartão para virar</div>
+                </div>
+            </div>
 
-    <div class="card">
-        <div class="question">2. Receita antecipada é receita?</div>
-        <div class="answer">
-            Não. Apesar do nome, <strong>receita antecipada não é receita no momento do recebimento</strong>.  
-            Ela representa uma obrigação futura da empresa.
-            <br><br>
-            <strong>Receita Antecipada = Passivo</strong>
+            <div class="card-face back">
+                <div>
+                    <div class="label">VERSO</div>
+                    <div class="answer" id="answer"></div>
+                    <div class="hint">Toque novamente para voltar</div>
+                </div>
+            </div>
         </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">3. O que acontece quando a empresa paga um seguro antecipadamente?</div>
-        <div class="answer">
-            A empresa passa a ter um direito de utilizar esse seguro no futuro.
-            <br><br>
-            Portanto, registra-se uma conta de ativo, como:
-            <br><br>
-            <strong>Seguros a Vencer</strong><br>
-            <strong>Seguros Pagos Antecipadamente</strong><br>
-            <strong>Seguros a Apropriar</strong>
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">4. Quais são os nomes que a FGV pode usar para despesa antecipada?</div>
-        <div class="answer">
-            A FGV pode usar nomes diferentes para a mesma lógica:
-            <br><br>
-            <strong>Seguros a Vencer</strong><br>
-            <strong>Seguros Pagos Antecipadamente</strong><br>
-            <strong>Seguros a Apropriar</strong>
-            <br><br>
-            Todos representam <strong>ativo</strong>.
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">5. Se a empresa paga antes, isso é o quê?</div>
-        <div class="answer">
-            Se a empresa pagou antes para usar depois, ela tem um direito.
-            <br><br>
-            <strong>Pagou antes = Ativo</strong>
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">6. Se a empresa recebe antes, isso é o quê?</div>
-        <div class="answer">
-            Se a empresa recebeu antes, ela ainda precisa entregar mercadoria ou prestar serviço no futuro.
-            <br><br>
-            Logo, surgiu uma obrigação.
-            <br><br>
-            <strong>Recebeu antes = Passivo</strong>
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">7. O que é adiantamento de clientes?</div>
-        <div class="answer">
-            É quando a empresa recebe dinheiro do cliente antes de entregar a mercadoria ou prestar o serviço.
-            <br><br>
-            Portanto:
-            <br><br>
-            <strong>Adiantamento de Clientes = Receita Antecipada = Passivo</strong>
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">8. Quando a despesa antecipada vira despesa?</div>
-        <div class="answer">
-            Ela vira despesa conforme o benefício for sendo consumido.
-            <br><br>
-            Exemplo: seguro de 12 meses.
-            <br><br>
-            A cada mês, uma parte é apropriada como despesa.
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">9. Quando a receita antecipada vira receita?</div>
-        <div class="answer">
-            Ela vira receita quando a empresa cumpre sua obrigação.
-            <br><br>
-            Isso ocorre quando entrega a mercadoria ou presta o serviço.
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
-    </div>
-
-    <div class="card">
-        <div class="question">10. Qual é o macete para a prova?</div>
-        <div class="answer">
-            Guarde esta frase:
-            <br><br>
-            <strong>Pagou antes → Ativo.</strong>
-            <br><br>
-            <strong>Recebeu antes → Passivo.</strong>
-            <br><br>
-            Esse macete resolve grande parte das questões da FGV.
-        </div>
-        <button onclick="toggleAnswer(this)">Ver resposta</button>
     </div>
 
 </div>
 
-<div class="footer">
-    Curso de Contabilidade – Professor Moreira
+<div class="controls">
+    <button class="btn-back" onclick="prevCard()">⬅ Voltar</button>
+    <button class="btn-restart" onclick="restartCards()">🔄 Reiniciar</button>
+    <button class="btn-next" onclick="nextCard()">Avançar ➡</button>
 </div>
 
 <script>
-function toggleAnswer(button){
-    const answer = button.previousElementSibling;
+const cards = [
+    {
+        q: "Despesa antecipada é despesa?",
+        a: "Não. Apesar do nome, <strong>despesa antecipada não é despesa no momento do pagamento</strong>.<br><br>Ela representa um direito da empresa de usufruir algo no futuro.<br><br><strong>Despesa Antecipada = Ativo</strong>"
+    },
+    {
+        q: "Receita antecipada é receita?",
+        a: "Não. Apesar do nome, <strong>receita antecipada não é receita no momento do recebimento</strong>.<br><br>Ela representa uma obrigação futura da empresa.<br><br><strong>Receita Antecipada = Passivo</strong>"
+    },
+    {
+        q: "O que acontece quando a empresa paga um seguro antecipadamente?",
+        a: "A empresa passa a ter um direito de utilizar esse seguro no futuro.<br><br>Portanto, registra-se uma conta de ativo, como:<br><br><strong>Seguros a Vencer</strong><br><strong>Seguros Pagos Antecipadamente</strong><br><strong>Seguros a Apropriar</strong>"
+    },
+    {
+        q: "Quais nomes a FGV pode usar para despesa antecipada?",
+        a: "A FGV pode usar nomes diferentes para a mesma lógica:<br><br><strong>Seguros a Vencer</strong><br><strong>Seguros Pagos Antecipadamente</strong><br><strong>Seguros a Apropriar</strong><br><br>Todos representam <strong>ativo</strong>."
+    },
+    {
+        q: "Se a empresa paga antes, isso é o quê?",
+        a: "Se a empresa pagou antes para usar depois, ela tem um direito.<br><br><strong>Pagou antes = Ativo</strong>"
+    },
+    {
+        q: "Se a empresa recebe antes, isso é o quê?",
+        a: "Se a empresa recebeu antes, ela ainda precisa entregar mercadoria ou prestar serviço no futuro.<br><br>Logo, surgiu uma obrigação.<br><br><strong>Recebeu antes = Passivo</strong>"
+    },
+    {
+        q: "O que é adiantamento de clientes?",
+        a: "É quando a empresa recebe dinheiro do cliente antes de entregar a mercadoria ou prestar o serviço.<br><br>Portanto:<br><br><strong>Adiantamento de Clientes = Receita Antecipada = Passivo</strong>"
+    },
+    {
+        q: "Quando a despesa antecipada vira despesa?",
+        a: "Ela vira despesa conforme o benefício for sendo consumido.<br><br>Exemplo: seguro de 12 meses.<br><br>A cada mês, uma parte é apropriada como despesa."
+    },
+    {
+        q: "Quando a receita antecipada vira receita?",
+        a: "Ela vira receita quando a empresa cumpre sua obrigação.<br><br>Isso ocorre quando entrega a mercadoria ou presta o serviço."
+    },
+    {
+        q: "Qual é o macete para a prova?",
+        a: "Guarde esta frase:<br><br><strong>Pagou antes → Ativo.</strong><br><br><strong>Recebeu antes → Passivo.</strong><br><br>Esse macete resolve grande parte das questões da FGV."
+    }
+];
 
-    if(answer.style.display === "block"){
-        answer.style.display = "none";
-        button.innerText = "Ver resposta";
-    }else{
-        answer.style.display = "block";
-        button.innerText = "Ocultar resposta";
+let current = 0;
+
+const flashcard = document.getElementById("flashcard");
+const question = document.getElementById("question");
+const answer = document.getElementById("answer");
+const progress = document.getElementById("progress");
+
+function loadCard(){
+    flashcard.classList.remove("flipped");
+    question.innerHTML = cards[current].q;
+    answer.innerHTML = cards[current].a;
+    progress.innerHTML = "Cartão " + (current + 1) + " de " + cards.length;
+
+    document.querySelector(".btn-back").disabled = current === 0;
+    document.querySelector(".btn-next").disabled = current === cards.length - 1;
+}
+
+function flipCard(){
+    flashcard.classList.toggle("flipped");
+}
+
+function nextCard(){
+    event.stopPropagation();
+    if(current < cards.length - 1){
+        current++;
+        loadCard();
     }
 }
+
+function prevCard(){
+    event.stopPropagation();
+    if(current > 0){
+        current--;
+        loadCard();
+    }
+}
+
+function restartCards(){
+    event.stopPropagation();
+    current = 0;
+    loadCard();
+}
+
+loadCard();
 </script>
 
 </body>
