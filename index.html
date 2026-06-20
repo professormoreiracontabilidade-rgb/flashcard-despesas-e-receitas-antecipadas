@@ -1,327 +1,75 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flashcards - Receitas e Despesas Antecipadas</title>
-
+<title>Flashcards - Despesas e Receitas Antecipadas</title>
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f4f7fb;
-    color:#111;
-    min-height:100vh;
-}
-
-header{
-    background:#062b5f;
-    color:white;
-    padding:16px;
-    text-align:center;
-}
-
-header h1{
-    margin:0;
-    font-size:21px;
-    line-height:1.25;
-}
-
-header p{
-    margin:6px 0 0;
-    font-size:14px;
-}
-
-.progress{
-    text-align:center;
-    font-weight:bold;
-    color:#062b5f;
-    padding:14px 0 4px;
-    font-size:16px;
-}
-
-.container{
-    width:100%;
-    max-width:480px;
-    margin:0 auto;
-    padding:14px;
-    min-height:calc(100vh - 170px);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.flashcard{
-    width:100%;
-    min-height:430px;
-    perspective:1000px;
-    cursor:pointer;
-}
-
-.card-inner{
-    position:relative;
-    width:100%;
-    min-height:430px;
-    transition:transform 0.6s;
-    transform-style:preserve-3d;
-}
-
-.flashcard.flipped .card-inner{
-    transform:rotateY(180deg);
-}
-
-.card-face{
-    position:absolute;
-    width:100%;
-    min-height:430px;
-    backface-visibility:hidden;
-    border-radius:22px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.18);
-    border:3px solid #062b5f;
-    padding:28px 22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-}
-
-.front{
-    background:#ffffff;
-}
-
-.back{
-    background:#fff8ec;
-    transform:rotateY(180deg);
-}
-
-.label{
-    display:inline-block;
-    background:#ff8c00;
-    color:white;
-    padding:8px 14px;
-    border-radius:999px;
-    font-size:14px;
-    font-weight:bold;
-    margin-bottom:18px;
-}
-
-.question{
-    font-size:24px;
-    font-weight:bold;
-    line-height:1.35;
-    color:#062b5f;
-}
-
-.answer{
-    font-size:21px;
-    line-height:1.45;
-}
-
-.answer strong{
-    color:#062b5f;
-}
-
-.hint{
-    margin-top:24px;
-    font-size:14px;
-    color:#555;
-}
-
-.controls{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:white;
-    border-top:2px solid #ddd;
-    padding:10px;
-    display:flex;
-    gap:8px;
-    justify-content:center;
-}
-
-.controls button{
-    flex:1;
-    max-width:150px;
-    border:none;
-    border-radius:12px;
-    padding:14px 8px;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    color:white;
-}
-
-.btn-back{
-    background:#555;
-}
-
-.btn-restart{
-    background:#ff8c00;
-}
-
-.btn-next{
-    background:#062b5f;
-}
-
-.controls button:disabled{
-    background:#bbb;
-    cursor:not-allowed;
-}
-
-@media(max-width:380px){
-    .question{
-        font-size:21px;
-    }
-
-    .answer{
-        font-size:18px;
-    }
-
-    .flashcard,
-    .card-inner,
-    .card-face{
-        min-height:390px;
-    }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+body{background:#f2f5fa;display:flex;justify-content:center;padding:15px;color:#111;}
+.container{width:100%;max-width:720px;}
+.topo{background:#003b8f;color:white;padding:18px;border-radius:18px;text-align:center;margin-bottom:15px;box-shadow:0 6px 16px rgba(0,0,0,.18);}
+.topo h1{font-size:28px;margin:0;text-transform:uppercase;}
+.topo p{font-size:18px;margin-top:6px;font-weight:bold;}
+.card-area{perspective:1200px;}
+.card{width:100%;height:300px;position:relative;transform-style:preserve-3d;transition:.7s;cursor:pointer;}
+.card.virado{transform:rotateY(180deg);}
+.face{position:absolute;inset:0;border-radius:22px;display:flex;align-items:center;justify-content:center;padding:26px;text-align:center;font-size:24px;font-weight:800;line-height:1.35;backface-visibility:hidden;box-shadow:0 8px 20px rgba(0,0,0,.18);overflow:auto;}
+.frente{background:#b3e5fc;color:#000;border:3px solid #7ccbf0;}
+.verso{background:#f8bbd0;color:#000;border:3px solid #ef8fb0;transform:rotateY(180deg);}
+.indice{text-align:center;margin:14px 0 0;font-weight:bold;font-size:18px;color:#003b8f;}
+.dica{text-align:center;margin-top:7px;font-size:14px;color:#445;}
+.controles{display:flex;justify-content:space-between;margin-top:18px;gap:10px;}
+button{flex:1;padding:15px 8px;border:none;border-radius:15px;font-size:18px;font-weight:bold;cursor:pointer;background:#003b8f;color:white;box-shadow:0 4px 12px rgba(0,0,0,.18);}
+button:active{transform:scale(.98);}
+@media(max-width:420px){
+  body{padding:10px;}
+  .topo h1{font-size:25px;}
+  .topo p{font-size:16px;}
+  .card{height:330px;}
+  .face{font-size:21px;padding:22px;}
+  button{font-size:16px;padding:14px 6px;}
 }
 </style>
 </head>
-
 <body>
-
-<header>
-    <h1>Receitas e Despesas Antecipadas</h1>
-    <p>Curso de Contabilidade – Professor Moreira</p>
-</header>
-
-<div class="progress" id="progress"></div>
-
 <div class="container">
+  <div class="topo">
+    <h1>📚 FLASHCARDS</h1>
+    <p>Despesas e Receitas Antecipadas</p>
+  </div>
 
-    <div class="flashcard" id="flashcard" onclick="flipCard()">
-        <div class="card-inner">
-            <div class="card-face front">
-                <div>
-                    <div class="label">FRENTE</div>
-                    <div class="question" id="question"></div>
-                    <div class="hint">Toque no cartão para virar</div>
-                </div>
-            </div>
-
-            <div class="card-face back">
-                <div>
-                    <div class="label">VERSO</div>
-                    <div class="answer" id="answer"></div>
-                    <div class="hint">Toque novamente para voltar</div>
-                </div>
-            </div>
-        </div>
+  <div class="card-area">
+    <div class="card" id="card" onclick="virarCard()">
+      <div class="face frente" id="pergunta"></div>
+      <div class="face verso" id="resposta"></div>
     </div>
+  </div>
 
-</div>
+  <div class="indice" id="contador"></div>
+  <div class="dica">Toque no cartão para virar</div>
 
-<div class="controls">
-    <button class="btn-back" onclick="prevCard()">⬅ Voltar</button>
-    <button class="btn-restart" onclick="restartCards()">🔄 Reiniciar</button>
-    <button class="btn-next" onclick="nextCard()">Avançar ➡</button>
+  <div class="controles">
+    <button onclick="anterior(event)">⬅️ Voltar</button>
+    <button onclick="reiniciar(event)">🔄 Reiniciar</button>
+    <button onclick="proximo(event)">Avançar ➡️</button>
+  </div>
 </div>
 
 <script>
-const cards = [
-    {
-        q: "Despesa antecipada é despesa?",
-        a: "Não. Apesar do nome, <strong>despesa antecipada não é despesa no momento do pagamento</strong>.<br><br>Ela representa um direito da empresa de usufruir algo no futuro.<br><br><strong>Despesa Antecipada = Ativo</strong>"
-    },
-    {
-        q: "Receita antecipada é receita?",
-        a: "Não. Apesar do nome, <strong>receita antecipada não é receita no momento do recebimento</strong>.<br><br>Ela representa uma obrigação futura da empresa.<br><br><strong>Receita Antecipada = Passivo</strong>"
-    },
-    {
-        q: "O que acontece quando a empresa paga um seguro antecipadamente?",
-        a: "A empresa passa a ter um direito de utilizar esse seguro no futuro.<br><br>Portanto, registra-se uma conta de ativo, como:<br><br><strong>Seguros a Vencer</strong><br><strong>Seguros Pagos Antecipadamente</strong><br><strong>Seguros a Apropriar</strong>"
-    },
-    {
-        q: "Quais nomes a FGV pode usar para despesa antecipada?",
-        a: "A FGV pode usar nomes diferentes para a mesma lógica:<br><br><strong>Seguros a Vencer</strong><br><strong>Seguros Pagos Antecipadamente</strong><br><strong>Seguros a Apropriar</strong><br><br>Todos representam <strong>ativo</strong>."
-    },
-    {
-        q: "Se a empresa paga antes, isso é o quê?",
-        a: "Se a empresa pagou antes para usar depois, ela tem um direito.<br><br><strong>Pagou antes = Ativo</strong>"
-    },
-    {
-        q: "Se a empresa recebe antes, isso é o quê?",
-        a: "Se a empresa recebeu antes, ela ainda precisa entregar mercadoria ou prestar serviço no futuro.<br><br>Logo, surgiu uma obrigação.<br><br><strong>Recebeu antes = Passivo</strong>"
-    },
-    {
-        q: "O que é adiantamento de clientes?",
-        a: "É quando a empresa recebe dinheiro do cliente antes de entregar a mercadoria ou prestar o serviço.<br><br>Portanto:<br><br><strong>Adiantamento de Clientes = Receita Antecipada = Passivo</strong>"
-    },
-    {
-        q: "Quando a despesa antecipada vira despesa?",
-        a: "Ela vira despesa conforme o benefício for sendo consumido.<br><br>Exemplo: seguro de 12 meses.<br><br>A cada mês, uma parte é apropriada como despesa."
-    },
-    {
-        q: "Quando a receita antecipada vira receita?",
-        a: "Ela vira receita quando a empresa cumpre sua obrigação.<br><br>Isso ocorre quando entrega a mercadoria ou presta o serviço."
-    },
-    {
-        q: "Qual é o macete para a prova?",
-        a: "Guarde esta frase:<br><br><strong>Pagou antes → Ativo.</strong><br><br><strong>Recebeu antes → Passivo.</strong><br><br>Esse macete resolve grande parte das questões da FGV."
-    }
-];
-
-let current = 0;
-
-const flashcard = document.getElementById("flashcard");
-const question = document.getElementById("question");
-const answer = document.getElementById("answer");
-const progress = document.getElementById("progress");
-
-function loadCard(){
-    flashcard.classList.remove("flipped");
-    question.innerHTML = cards[current].q;
-    answer.innerHTML = cards[current].a;
-    progress.innerHTML = "Cartão " + (current + 1) + " de " + cards.length;
-
-    document.querySelector(".btn-back").disabled = current === 0;
-    document.querySelector(".btn-next").disabled = current === cards.length - 1;
+const flashcards = [{"front": "Como são classificadas as despesas antecipadas quanto à sua natureza patrimonial?", "back": "Como um direito da entidade."}, {"front": "Em qual grupo do Balanço Patrimonial são registradas as despesas antecipadas que se realizarão no exercício seguinte?", "back": "Ativo Circulante."}, {"front": "Onde são contabilizadas as despesas antecipadas com prazo de realização superior a 12 meses após o balanço?", "back": "Ativo Realizável a Longo Prazo."}, {"front": "As despesas antecipadas representam pagamentos efetuados em período _____ ao seu fato gerador.", "back": "Anterior"}, {"front": "Segundo a Lei $6.404/76$, o que representam as despesas antecipadas?", "back": "Aplicações de recursos em despesas do exercício seguinte."}, {"front": "No contexto de seguros, o que é o 'prêmio'?", "back": "O valor pago pelo segurado para contratar a apólice."}, {"front": "Qual é o documento que formaliza a cobertura do seguro para o segurado?", "back": "Apólice."}, {"front": "Qual é o termo que define o período de validade de um contrato de seguro?", "back": "Vigência."}, {"front": "Qual é o fato gerador da despesa de seguro para fins de contabilização?", "back": "A emissão da apólice."}, {"front": "No regime de competência, o reconhecimento da despesa independe do _____.", "back": "Pagamento"}, {"front": "Como é calculada a apropriação mensal de uma despesa antecipada de seguros?", "back": "$\\frac{\\text{Valor do Prêmio}}{\\text{Meses de Vigência}}$"}, {"front": "Qual lançamento contábil deve ser feito mensalmente para reconhecer a despesa de seguro já paga?", "back": "Débito em Despesa de Seguro e crédito em Seguros a Apropriar (Ativo)."}, {"front": "A apropriação mensal de despesas antecipadas segue qual critério de rateio temporal?", "back": "Pro rata temporis."}, {"front": "Cite dois exemplos comuns de despesas antecipadas além do seguro.", "back": "Aluguel e assinaturas de jornais/revistas."}, {"front": "A contratação de um seguro com pagamento à vista é considerada um fato contábil _____.", "back": "Permutativo"}, {"front": "O que caracteriza uma receita antecipada?", "back": "O recebimento de valores antes da ocorrência do fato gerador da receita."}, {"front": "As receitas antecipadas criam uma _____ para a entidade perante o cliente.", "back": "Obrigação"}, {"front": "Em qual grupo do Balanço Patrimonial as receitas antecipadas são classificadas?", "back": "Passivo (Circulante ou Não Circulante)."}, {"front": "Qual regime contábil é a regra geral para o reconhecimento de receitas e despesas?", "back": "Regime de Competência."}, {"front": "Qual regime contábil foca exclusivamente na movimentação financeira de caixa?", "back": "Regime de Caixa."}, {"front": "Em qual demonstração contábil o regime de caixa é utilizado como exceção?", "back": "Demonstração dos Fluxos de Caixa (DFC)."}, {"front": "Qual é a base de reconhecimento de receitas no regime de competência?", "back": "O fato gerador."}, {"front": "Receita Antecipada: Débito em _____ / Crédito em Passivo (Receita Antecipada).", "back": "Caixa ou Bancos"}, {"front": "O termo 'adiantamento de clientes' é sinônimo de qual conceito contábil?", "back": "Receita antecipada."}, {"front": "Por que o adiantamento de clientes é um passivo?", "back": "Porque a empresa tem a obrigação de entregar bens ou prestar serviços futuramente."}, {"front": "Como é classificada a conta 'Adiantamento a Fornecedores'?", "back": "Como um Ativo (Direito)."}, {"front": "A conta 'Imposto a Recuperar' é classificada como Ativo ou Passivo?", "back": "Ativo."}, {"front": "Como é classificada a conta 'Adiantamento a Empregados'?", "back": "Como um Ativo (Direito da empresa)."}, {"front": "No momento do recebimento de um adiantamento, a empresa reconhece lucro?", "back": "Não, pois o fato gerador da receita ainda não ocorreu."}, {"front": "Qual é o efeito patrimonial imediato do recebimento de um adiantamento de cliente no Passivo?", "back": "Aumento das obrigações (Passivo Exigível)."}, {"front": "As despesas antecipadas costumam ser parcelas _____ significativas que as despesas comuns da entidade.", "back": "Menos"}, {"front": "Se uma empresa paga $180.000$ por um seguro de $24$ meses, qual o valor da despesa mensal?", "back": "$7.500$"}, {"front": "Uma apólice de $24$ meses contratada em Maio terá quantos meses apropriados como despesa no primeiro ano?", "back": "8 meses (Maio a Dezembro)."}, {"front": "Em um contrato de seguro de $24$ meses, a parcela que excede os primeiros $12$ meses após o balanço vai para o _____.", "back": "Ativo Realizável a Longo Prazo"}, {"front": "Qual a principal diferença entre regime de competência e regime de caixa?", "back": "A competência foca no fato gerador e o caixa foca no pagamento/recebimento."}, {"front": "O aluguel pago antecipadamente é um exemplo de _____.", "back": "Despesa antecipada (Ativo)"}, {"front": "Ao prestar o serviço referente a um adiantamento já recebido, qual conta do passivo deve ser baixada?", "back": "Receitas Antecipadas (ou Adiantamento de Clientes)."}, {"front": "O imposto a recolher, diferentemente do imposto a recuperar, é uma _____.", "back": "Obrigação (Passivo)"}, {"front": "A emissão da nota fiscal de uma venda a prazo gera o reconhecimento imediato da _____.", "back": "Receita de vendas"}, {"front": "O que ocorre com a conta de 'Despesas Antecipadas' à medida que o tempo passa?", "back": "Ela é reduzida mensalmente contra uma conta de despesa no resultado."}, {"front": "Se o pagamento do prêmio do seguro for parcelado, o valor total do direito ainda deve ser reconhecido na contratação?", "back": "Sim, pelo regime de competência, baseado no fato gerador (emissão da apólice)."}, {"front": "O adiantamento recebido para mercadorias que ainda serão produzidas deve ser lançado como _____.", "back": "Passivo (Receita Antecipada)"}, {"front": "O que acontece com o Patrimônio Líquido no momento exato do registro inicial de uma despesa antecipada?", "back": "Não se altera, pois é um fato permutativo entre contas do ativo."}, {"front": "Qual a natureza da conta 'Seguros a Pagar' se a empresa ainda não quitou o prêmio?", "back": "Obrigação (Passivo Circulante)."}, {"front": "Onde as assinaturas de revistas pagas antecipadamente devem aparecer no balanço?", "back": "No Ativo (Despesas Antecipadas)."}, {"front": "Para o segurado, o seguro é um exemplo de serviço onde primeiro se _____ para depois utilizar.", "back": "Paga"}, {"front": "O reconhecimento futuro de despesas apropriadas mensalmente segue o princípio da _____.", "back": "Competência"}, {"front": "Receita antecipada é uma conta de resultado?", "back": "Não, é uma conta patrimonial (Passivo)."}, {"front": "O que define se uma despesa antecipada é Circulante ou Não Circulante?", "back": "O período de tempo em que a despesa será efetivamente incorrida/realizada."}, {"front": "Qual o impacto inicial no caixa ao receber uma receita antecipada?", "back": "Aumento das disponibilidades (Ativo)."}];
+let atual = 0;
+function carregar(){
+  document.getElementById('pergunta').textContent = flashcards[atual].front;
+  document.getElementById('resposta').textContent = flashcards[atual].back;
+  document.getElementById('contador').textContent = `Cartão ${atual+1} de ${flashcards.length}`;
+  document.getElementById('card').classList.remove('virado');
 }
-
-function flipCard(){
-    flashcard.classList.toggle("flipped");
-}
-
-function nextCard(){
-    event.stopPropagation();
-    if(current < cards.length - 1){
-        current++;
-        loadCard();
-    }
-}
-
-function prevCard(){
-    event.stopPropagation();
-    if(current > 0){
-        current--;
-        loadCard();
-    }
-}
-
-function restartCards(){
-    event.stopPropagation();
-    current = 0;
-    loadCard();
-}
-
-loadCard();
+function virarCard(){document.getElementById('card').classList.toggle('virado');}
+function proximo(e){e.stopPropagation(); if(atual < flashcards.length-1){atual++; carregar();}}
+function anterior(e){e.stopPropagation(); if(atual > 0){atual--; carregar();}}
+function reiniciar(e){e.stopPropagation(); atual=0; carregar();}
+carregar();
 </script>
-
 </body>
 </html>
-```
